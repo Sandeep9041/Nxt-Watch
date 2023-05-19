@@ -1,0 +1,106 @@
+import {Link} from 'react-router-dom'
+import {useState, useEffect} from 'react'
+import {BiListPlus} from 'react-icons/bi'
+
+import Header from '../Header/header'
+import SideBar from '../sideBar'
+import NewContext from '../context'
+import {
+  SavedBg,
+  TrendingLogoContainer,
+  TrendingLogo,
+  TrendingLogoHeading,
+  TrendingUl,
+  TrendingLi,
+  TrendingThumbnail,
+  TrendingVideoContent,
+  TrendingVideoTitle,
+  TrendingVideoChannelName,
+  TrendingVideoViews,
+  TrendingVideoDate,
+  TrendingVideoData,
+  FailureImage,
+  FailureHeading,
+  FailurePara,
+  FailureButton,
+  FailureBox,
+} from './indexCs'
+
+const SavedVideo = () => (
+  <NewContext.Consumer>
+    {value => {
+      const {isDarkMode, savedList} = value
+      console.log(savedList)
+      return (
+        <>
+          <Header />
+          <div style={{display: 'flex'}}>
+            <SideBar />
+            <SavedBg data-testid="savedVideos">
+              {savedList.length > 0 ? (
+                <>
+                  <TrendingLogoContainer isDarkMode={isDarkMode}>
+                    <TrendingLogo isDarkMode={isDarkMode}>
+                      <BiListPlus style={{color: 'red', fontSize: '30px'}} />
+                    </TrendingLogo>
+                    <TrendingLogoHeading isDarkMode={isDarkMode}>
+                      Saved Videos
+                    </TrendingLogoHeading>
+                  </TrendingLogoContainer>
+                  <TrendingUl>
+                    {savedList.map(each => (
+                      <Link
+                        to={`/videos/${each.id}`}
+                        key={each.id}
+                        style={{textDecoration: 'none'}}
+                      >
+                        <TrendingLi>
+                          <TrendingThumbnail
+                            alt="video thumbnail"
+                            src={each.thumbnailUrl}
+                          />
+                          <TrendingVideoContent>
+                            <TrendingVideoTitle>
+                              {each.title}
+                            </TrendingVideoTitle>
+                            <TrendingVideoChannelName>
+                              {each.channel.name}{' '}
+                            </TrendingVideoChannelName>
+
+                            <TrendingVideoData>
+                              <TrendingVideoViews>
+                                {each.viewCount} views
+                              </TrendingVideoViews>
+                              <TrendingVideoDate>
+                                {each.publishedAt}
+                              </TrendingVideoDate>
+                            </TrendingVideoData>
+                          </TrendingVideoContent>
+                        </TrendingLi>
+                      </Link>
+                    ))}
+                  </TrendingUl>
+                </>
+              ) : (
+                <FailureBox isDarkMode={isDarkMode}>
+                  <FailureImage
+                    alt="no saved videos"
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
+                  />
+                  <FailureHeading isDarkMode={isDarkMode}>
+                    No saved videos found
+                  </FailureHeading>
+                  <FailurePara isDarkMode={isDarkMode}>
+                    Save your videos by clicking a button
+                  </FailurePara>
+                </FailureBox>
+              )}
+            </SavedBg>
+          </div>
+        </>
+      )
+    }}
+  </NewContext.Consumer>
+)
+
+export default SavedVideo
