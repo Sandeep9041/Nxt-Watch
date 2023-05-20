@@ -1,7 +1,8 @@
 import {Link} from 'react-router-dom'
 import {useState, useEffect} from 'react'
+import {formatDistanceToNow, formatDistanceToNowStrict} from 'date-fns'
 import {BiListPlus} from 'react-icons/bi'
-
+import {BsDot} from 'react-icons/bs'
 import Header from '../Header/header'
 import SideBar from '../sideBar'
 import NewContext from '../context'
@@ -22,8 +23,12 @@ import {
   FailureImage,
   FailureHeading,
   FailurePara,
-  FailureButton,
+  SavedVideoContainer,
   FailureBox,
+  TitleSmContainer,
+  ChannelImg,
+  DotSm,
+  Dot,
 } from './indexCs'
 
 const SavedVideo = () => (
@@ -36,7 +41,7 @@ const SavedVideo = () => (
           <Header />
           <div style={{display: 'flex'}}>
             <SideBar />
-            <SavedBg data-testid="savedVideos">
+            <SavedBg data-testid="savedVideos" isDarkMode={isDarkMode}>
               {savedList.length > 0 ? (
                 <>
                   <TrendingLogoContainer isDarkMode={isDarkMode}>
@@ -60,21 +65,34 @@ const SavedVideo = () => (
                             src={each.thumbnailUrl}
                           />
                           <TrendingVideoContent>
-                            <TrendingVideoTitle>
-                              {each.title}
-                            </TrendingVideoTitle>
-                            <TrendingVideoChannelName>
-                              {each.channel.name}{' '}
-                            </TrendingVideoChannelName>
+                            <TitleSmContainer>
+                              <ChannelImg src={each.channel.profileImg} />
+                              <TrendingVideoTitle>
+                                {each.title}
+                              </TrendingVideoTitle>
+                            </TitleSmContainer>
 
-                            <TrendingVideoData>
-                              <TrendingVideoViews>
-                                {each.viewCount} views
-                              </TrendingVideoViews>
-                              <TrendingVideoDate>
-                                {each.publishedAt}
-                              </TrendingVideoDate>
-                            </TrendingVideoData>
+                            <SavedVideoContainer>
+                              <TrendingVideoChannelName>
+                                {each.channel.name}{' '}
+                              </TrendingVideoChannelName>
+                              <DotSm isDarkMode={isDarkMode}>
+                                <BsDot />
+                              </DotSm>{' '}
+                              <TrendingVideoData>
+                                <TrendingVideoViews>
+                                  {each.viewCount} views
+                                </TrendingVideoViews>
+                                <Dot isDarkMode={isDarkMode}>
+                                  <BsDot />
+                                </Dot>{' '}
+                                <TrendingVideoDate>
+                                  {formatDistanceToNowStrict(
+                                    new Date(each.publishedAt),
+                                  )}
+                                </TrendingVideoDate>
+                              </TrendingVideoData>
+                            </SavedVideoContainer>
                           </TrendingVideoContent>
                         </TrendingLi>
                       </Link>

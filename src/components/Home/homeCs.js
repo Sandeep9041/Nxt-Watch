@@ -62,7 +62,7 @@ export const RightSideContainers = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  background-color: ${props => (props.isDarkMode ? '#0f0f0f ' : '#f9f9f9 ')};
+  background-color: ${props => (props.isDarkMode ? '#181818 ' : '#f9f9f9 ')};
   @media (max-width: 576px) {
     // padding: 10px;
   }

@@ -1,15 +1,16 @@
 import {useState, useEffect} from 'react'
 import {useParams} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
-
+import {BsDot} from 'react-icons/bs'
 import ReactPlayer from 'react-player'
 import {BiListPlus} from 'react-icons/bi'
+import {formatDistanceToNow, formatDistanceToNowStrict} from 'date-fns'
 
 import {
   AiOutlineLike,
   AiOutlineDislike,
-  AiFillLike,
-  AiFillDislike,
+  //   AiFillLike,
+  //   AiFillDislike,
 } from 'react-icons/ai'
 import Cookies from 'js-cookie'
 import Header from '../Header/header'
@@ -20,7 +21,9 @@ import {
   VideoContainers,
   VideoDetailHeading,
   VideoDetailPara,
-  VideoDetailPara1,
+  VideoDetailLikeBtn,
+  VideoDetailDislikeBtn,
+  VideoDetailSaveBtn,
   VideoDetailSubscribers,
   VideoDetailDescription,
   VideoDetailName,
@@ -29,6 +32,10 @@ import {
   FailurePara,
   FailureButton,
   LoaderContainer,
+  VideoLikeContainer,
+  VideoPlayerContainer,
+  VideoViewDateContainer,
+  VideoDetailsContainerSm,
 } from './videoDetailCs'
 
 const apiStatusConstants = {
@@ -45,6 +52,7 @@ const VideoDetails = () => {
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial)
   const [activeLikeBtn, setActiveLikeBtn] = useState(false)
   const [activeDislikeBtn, setActiveDislikeBtn] = useState(false)
+  const [saveBtn, setSaveBtn] = useState(false)
 
   const getData = async () => {
     setApiStatus(apiStatusConstants.inProgress)
@@ -102,10 +110,11 @@ const VideoDetails = () => {
         } = value
         const getVideoSaved = newList => {
           getSavedValue(newList)
+          setSaveBtn(prevState => !prevState)
           /* console.log(newList) */
         }
         const {
-          id,
+          // id,
           thumbnailUrl,
           publishedAt,
           title,
@@ -141,7 +150,7 @@ const VideoDetails = () => {
             </FailureHeading>
             <FailurePara isDarkMode={isDarkMode}>
               We are having some trouble to complete your request. Please try
-              again
+              again.
             </FailurePara>
             <FailurePara isDarkMode={isDarkMode}>Please try again.</FailurePara>
             <FailureButton
@@ -170,134 +179,114 @@ const VideoDetails = () => {
             data-testid="videoItemDetails"
           >
             <VideoContainers isDarkMode={isDarkMode}>
-              <ReactPlayer url={videoUrl} width="80%" height="65vh" />
+              <VideoPlayerContainer>
+                {' '}
+                <ReactPlayer
+                  url={videoUrl}
+
+                  //   width="100%"
+                  //   height="100%"
+                />
+              </VideoPlayerContainer>
               <div
                 style={{
-                  width: '80%',
+                  width: '90%',
                   marginTop: '0px',
                 }}
               >
                 <VideoDetailHeading isDarkMode={isDarkMode}>
                   {title}
                 </VideoDetailHeading>
-                <div
+                <VideoDetailsContainerSm
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     marginTop: '0px',
                   }}
                 >
-                  <div
-                    style={{
-                      width: '25%',
-                      display: 'flex',
-                      marginTop: '-5px',
-                    }}
-                  >
+                  <VideoViewDateContainer>
                     <VideoDetailPara isDarkMode={isDarkMode}>
                       {viewCount} views
                     </VideoDetailPara>
-                    <VideoDetailPara isDarkMode={isDarkMode}>
-                      {publishedAt}
-                    </VideoDetailPara>
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      width: '33%',
-                      backgroundColor: 'red',
-                    }}
-                  >
-                    <div
+                    <VideoDetailPara
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: '25%',
-                        fontSize: '15px',
-                        backgroundColor: 'green',
+                        marginRight: '3px',
+                        fontSize: '21px',
+                        marginTop: '10px',
                       }}
+                      isDarkMode={isDarkMode}
+                    >
+                      <BsDot />
+                    </VideoDetailPara>{' '}
+                    <VideoDetailPara isDarkMode={isDarkMode}>
+                      {formatDistanceToNowStrict(new Date(publishedAt))}
+                    </VideoDetailPara>
+                  </VideoViewDateContainer>
+                  <VideoLikeContainer>
+                    <VideoDetailLikeBtn
+                      isDarkMode={isDarkMode}
+                      type="button"
+                      onClick={changeLikeBtn}
+                      data-testid="Like"
+                      activeLikeBtn={activeLikeBtn}
                     >
                       <AiOutlineLike
-                        style={{color: isDarkMode ? '#909090' : '#64748b'}}
-                      />
-                      <VideoDetailPara1
-                        isDarkMode={isDarkMode}
-                        type="button"
-                        onClick={changeLikeBtn}
                         style={{
-                          color: activeLikeBtn ? '#2563eb' : '#64748b',
+                          fontSize: '17px',
+                          marginRight: '3px',
+                          marginTop: '-1px',
+                          marginLeft: '-15px',
                         }}
-                        data-testid="Like"
-                      >
-                        Like
-                      </VideoDetailPara1>
-                    </div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: '25%',
-                        fontSize: '15px',
-                        backgroundColor: 'green',
-                      }}
+                      />
+                      Like
+                    </VideoDetailLikeBtn>
+
+                    <VideoDetailDislikeBtn
+                      isDarkMode={isDarkMode}
+                      type="button"
+                      onClick={changeDislikeBtn}
+                      activeDislikeBtn={activeDislikeBtn}
                     >
                       <AiOutlineDislike
-                        style={{
-                          color: isDarkMode ? '#909090' : '#64748b',
-                          marginRight: '0px',
-                        }}
+                        style={{fontSize: '17px', marginRight: '3px'}}
                       />
-                      <VideoDetailPara1
-                        isDarkMode={isDarkMode}
-                        type="button"
-                        onClick={changeDislikeBtn}
-                        style={{
-                          color: activeDislikeBtn ? '#2563eb' : '#64748b',
-                        }}
-                      >
-                        Dislike
-                      </VideoDetailPara1>
-                    </div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        width: '25%',
-                        fontSize: '15px',
-                        backgroundColor: 'green',
+                      Dislike
+                    </VideoDetailDislikeBtn>
+
+                    <VideoDetailSaveBtn
+                      isDarkMode={isDarkMode}
+                      type="button"
+                      onClick={() => {
+                        getVideoSaved(list)
                       }}
+                      isSaved={isSaved}
                     >
                       <BiListPlus
-                        style={{color: isDarkMode ? '#909090' : '#64748b'}}
-                      />
-                      <VideoDetailPara1
-                        isDarkMode={isDarkMode}
-                        style={{color: isSaved ? '#000000' : 'pink'}}
-                        type="button"
-                        onClick={() => {
-                          getVideoSaved(list)
+                        style={{
+                          fontSize: '20px',
+                          marginRight: '3px',
+                          marginTop: '-2px',
                         }}
-                      >
-                        {isSaved ? 'Saved' : 'Save'}
-                      </VideoDetailPara1>
-                    </div>
-                  </div>
-                </div>
+                      />
+                      {isSaved ? 'Saved' : 'Save'}
+                    </VideoDetailSaveBtn>
+                  </VideoLikeContainer>
+                </VideoDetailsContainerSm>
               </div>
               <hr
                 style={{
-                  width: '80%',
+                  width: '90%',
                   marginBottom: '25px',
                   height: '2px',
                   backgroundColor: isDarkMode ? '#383838' : '#cbd5e1',
                   border: '0px',
+                  marginTop: '0px',
                 }}
               />
               <div
                 style={{
                   display: 'flex',
-                  width: '80%',
+                  width: '90%',
                 }}
               >
                 <img
@@ -312,11 +301,11 @@ const VideoDetails = () => {
                   <VideoDetailSubscribers isDarkMode={isDarkMode}>
                     {channel.subscriberCount} subscribers
                   </VideoDetailSubscribers>
-                  <VideoDetailDescription isDarkMode={isDarkMode}>
-                    {description}
-                  </VideoDetailDescription>
                 </div>
               </div>
+              <VideoDetailDescription isDarkMode={isDarkMode}>
+                {description}
+              </VideoDetailDescription>
             </VideoContainers>
           </VideoDetailsContainers>
         )

@@ -132,30 +132,29 @@ const Gaming = () => {
             <div style={{width: '100%'}}>
               <GamingUl isDarkMode={isDarkMode}>
                 {videoList.map(each => (
-                  /* <Link
-                    style={{
-                      textDecoration: 'none',
-                      width: '30%',
-                      backgroundColor: 'red',
-                    }}
-                    to={`/videos/${each.id}`}
-                    key={each.id}
-                  > */
-                  <GamingLi>
-                    <GamingThumbnail
-                      src={each.thumbnailUrl}
-                      alt="video thumbnail"
-                    />
-                    <GamingTitle isDarkMode={isDarkMode}>
-                      {each.title}
-                    </GamingTitle>
-                    <TrendingVideoData>
-                      <GamingView isDarkMode={isDarkMode}>
-                        {each.viewCount} Watching Worldwide
-                      </GamingView>
-                    </TrendingVideoData>
+                  <GamingLi key={each.id}>
+                    <Link
+                      style={{
+                        textDecoration: 'none',
+                        //   width: '30%',
+                        //   backgroundColor: 'red',
+                      }}
+                      to={`/videos/${each.id}`}
+                    >
+                      <GamingThumbnail
+                        src={each.thumbnailUrl}
+                        alt="video thumbnail"
+                      />
+                      <GamingTitle isDarkMode={isDarkMode}>
+                        {each.title}
+                      </GamingTitle>
+                      <TrendingVideoData>
+                        <GamingView isDarkMode={isDarkMode}>
+                          {each.viewCount} Watching Worldwide
+                        </GamingView>
+                      </TrendingVideoData>
+                    </Link>
                   </GamingLi>
-                  /* </Link> */
                 ))}
               </GamingUl>
             </div>

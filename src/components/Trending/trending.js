@@ -117,7 +117,14 @@ const Trending = () => {
               We are having some trouble to complete your request.
             </FailurePara>
             <FailurePara isDarkMode={isDarkMode}>Please try again.</FailurePara>
-            <FailureButton isDarkMode={isDarkMode}>Retry</FailureButton>
+            <FailureButton
+              isDarkMode={isDarkMode}
+              onClick={() => {
+                getData()
+              }}
+            >
+              Retry
+            </FailureButton>
           </LoaderContainer>
         )
 

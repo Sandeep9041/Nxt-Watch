@@ -76,19 +76,27 @@ export const TrendingVideoTitle = styled.p`
   font-size: 23px;
   font-weight: 500;
   margin-bottom: 0px;
+  @media (max-width: 576px) {
+    font-size: 15px;
+    width: 80%;
+    line-height: 1.7;
+  }
 `
 export const TrendingVideoChannelName = styled.p`
   color: ${props => (props.isDarkMode ? '#909090' : '#64748b')};
   margin-bottom: 0px;
   margin-top: 10px;
+  @media (max-width: 576px) {
+    margin-top: 12px;
+  }
 `
+
 export const TrendingVideoData = styled.div`
   display: flex;
   margin-top: 0px;
 `
 export const TrendingVideoViews = styled.p`
   color: ${props => (props.isDarkMode ? '#909090' : '#64748b')};
-  margin-right: 15px;
 `
 export const TrendingVideoDate = styled.p`
   color: ${props => (props.isDarkMode ? '#909090' : '#64748b')};
@@ -140,7 +148,51 @@ export const FailureBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  //   justify-content: center;
   height: 115vh;
+`
+
+export const SavedVideoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 576px) {
+    flex-direction: row;
+    margin-left: 51px;
+    width: 80%;
+    font-size: 13px;
+    // background-color: red;
+  }
+`
+export const TitleSmContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+export const ChannelImg = styled.img`
+  display: none;
+  @media (max-width: 576px) {
+    display: flex;
+    width: 35px;
+    height: 35px;
+    margin-right: 15px;
+  }
+`
+export const DotSm = styled.p`
+  margin-right: 3px;
+  font-size: 21px;
+  margin-top: 15px;
+  color: ${props => (props.isDarkMode ? '#909090' : '#64748b')};
+  display: none;
+  @media (max-width: 576px) {
+    display: flex;
+    margin-top: 10px;
+  }
+`
+export const Dot = styled.div`
+  margin-right: 3px;
+  font-size: 21px;
+  margin-top: 15px;
+  color: ${props => (props.isDarkMode ? '#909090' : '#64748b')};
+  @media (max-width: 576px) {
+    margin-top: 10px;
+  }
 `
 export default SavedBg
